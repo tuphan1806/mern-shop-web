@@ -1,16 +1,18 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from './Store';
 import { getError } from '../utils';
+import { toast } from 'react-toastify';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -20,7 +22,14 @@ function reducer(state, action) {
       return { ...state, loading: false, order: action.payload, error: '' };
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
-
+    case 'PAY_REQUEST':
+      return { ...state, loadingPay: true };
+    case 'PAY_SUCCESS':
+      return { ...state, loadingPay: false, successPay: true };
+    case 'PAY_FAIL':
+      return { ...state, loadingPay: false };
+    case 'PAY_RESET':
+      return { ...state, loadingPay: false, successPay: false };
     default:
       return state;
   }
@@ -33,11 +42,14 @@ export default function OrderScreen() {
   const { id: orderId } = params;
   const navigate = useNavigate();
 
-  const [{ loading, error, order }, dispatch] = useReducer(reducer, {
-    loading: true,
-    order: {},
-    error: '',
-  });
+  const [{ loading, error, order, successPay, loadingPay }, dispatch] =
+    useReducer(reducer, {
+      loading: true,
+      order: {},
+      error: '',
+      successPay: false,
+      loadingPay: false,
+    });
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -59,6 +71,28 @@ export default function OrderScreen() {
       fetchOrder();
     }
   }, [order, userInfo, orderId, navigate]);
+
+  const payHandler = async (e) => {
+    try {
+      dispatch({ type: 'PAY_REQUEST' });
+      const { data } = await axios.put(
+        `/api/orders/${order._id}/pay`,
+        {
+          order,
+        },
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({ type: 'PAY_SUCCESS', payload: data });
+      toast.success('Order is paid');
+      window.location.reload();
+    } catch (err) {
+      dispatch({ type: 'PAY_FAIL', payload: getError(err) });
+      toast.error(getError(err));
+    }
+  };
+
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
@@ -167,6 +201,16 @@ export default function OrderScreen() {
               </ListGroup>
             </Card.Body>
           </Card>
+          <Button
+            type="submit"
+            variant="primary"
+            onClick={payHandler}
+            disabled={order.isPaid}
+            className="w-100"
+          >
+            Pay this Order
+          </Button>
+          {loadingPay && <LoadingBox></LoadingBox>}
         </Col>
       </Row>
     </div>
