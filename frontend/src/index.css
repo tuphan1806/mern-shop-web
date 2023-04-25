@@ -60,3 +60,7 @@ main {
   border-bottom: 0.2rem solid #0175fa;
   color: #0175fa;
 }
+
+th {
+  border-bottom: 1px solid #000;
+}
