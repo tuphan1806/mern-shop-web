@@ -41,13 +41,13 @@ function App() {
           <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
               <LinkContainer to="/">
-                <Navbar.Brand>amazona</Navbar.Brand>
+                <Navbar.Brand>Tuzstore</Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto w-100 justify-content-end">
                   <Link to="/cart" className="nav-link">
-                    Cart
+                    Giỏ hàng
                     {cart.cartItems.length > 0 && (
                       <Badge pill bg="danger">
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
@@ -57,10 +57,10 @@ function App() {
                   {userInfo ? (
                     <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                       <LinkContainer to="/profile">
-                        <NavDropdown.Item>User Profile</NavDropdown.Item>
+                        <NavDropdown.Item>Hồ sơ người dùng</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/orderhistory">
-                        <NavDropdown.Item>Order History</NavDropdown.Item>
+                        <NavDropdown.Item>Lịch sử đơn hàng</NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
                       <Link
@@ -68,12 +68,12 @@ function App() {
                         to="#signout"
                         onClick={signoutHandler}
                       >
-                        Sign Out
+                        Đăng xuất
                       </Link>
                     </NavDropdown>
                   ) : (
                     <Link className="nav-link" to="/signin">
-                      Sign In
+                      Đăng nhập
                     </Link>
                   )}
                   ;

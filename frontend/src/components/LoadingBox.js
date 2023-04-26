@@ -3,7 +3,7 @@ import Spinner from 'react-bootstrap/Spinner';
 export default function LoadingBox() {
   return (
     <Spinner animation="border" role="statux">
-      <span className="visually-hidden">Loading...</span>
+      <span className="visually-hidden">Đang tải...</span>
     </Spinner>
   );
 }

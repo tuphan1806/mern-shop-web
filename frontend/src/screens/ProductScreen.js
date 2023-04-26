@@ -93,7 +93,7 @@ function ProductScreen() {
             </ListGroup.Item>
             <ListGroup.Item>Price : ${product.price}</ListGroup.Item>
             <ListGroup.Item>
-              Description:
+              Mô tả:
               <p>{product.description}</p>
             </ListGroup.Item>
           </ListGroup>
@@ -110,12 +110,12 @@ function ProductScreen() {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Status:</Col>
+                    <Col>Tình trạng:</Col>
                     <Col>
                       {product.countInStock > 0 ? (
-                        <Badge bg="success">In Stock</Badge>
+                        <Badge bg="success">Còn hàng</Badge>
                       ) : (
-                        <Badge bg="danger">Unavailable</Badge>
+                        <Badge bg="danger">Hết hàng</Badge>
                       )}
                     </Col>
                   </Row>
@@ -125,7 +125,7 @@ function ProductScreen() {
                   <ListGroup.Item>
                     <div className="d-grid">
                       <Button onClick={addToCartHandle} variant="primary">
-                        Add to Cart
+                        Thêm vào giỏ hàng
                       </Button>
                     </div>
                   </ListGroup.Item>

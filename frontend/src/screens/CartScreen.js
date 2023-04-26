@@ -50,7 +50,7 @@ export default function CartScreen() {
         <Col md={8}>
           {cartItems.length === 0 ? (
             <MessageBox>
-              Cart is empty. <Link to="/">Go Shopping</Link>
+              Giỏ hàng đang trống. <Link to="/">Quay trở lại mua sắm</Link>
             </MessageBox>
           ) : (
             <ListGroup>
@@ -107,7 +107,7 @@ export default function CartScreen() {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h3>
-                    Subtotal (
+                    Tổng giở hàng (
                     {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}{' '}
                     items) : $
                     {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
@@ -121,7 +121,7 @@ export default function CartScreen() {
                       onClick={checkoutHandler}
                       disabled={cartItems.length === 0}
                     >
-                      Proceed to Checkout
+                      Đặt hàng
                     </Button>
                   </div>
                 </ListGroup.Item>
